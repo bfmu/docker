@@ -1,0 +1,35 @@
+version: '3.6'
+
+services:
+  chatgpt:
+    image: ghcr.io/ivanfioravanti/chatbot-ollama:main
+    container_name: chatgpt
+    #ports:
+    #  - 3000:3000
+    networks:
+      - proxy
+      - default
+    environment:
+      - DEFAULT_MODEL=llama2
+      - OLLAMA_HOST=http://ollama:11434
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    volumes:
+      - ./ollama/models:/ollama/models
+    environment:
+      - OLLAMA_MODELS=/ollama/models
+    ports:
+      - 11434:11434
+    networks:
+      - default
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+networks:
+  proxy:
+    external: true
+# La version actual de chatbot-ollama no descarga el modelo automaticamente
+# Vas a tener que correr este comando cada vez que necesites un modelo nuevo:
+# docker-compose exec ollama ollama pull llama2
