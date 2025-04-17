@@ -1,0 +1,22 @@
+services:
+  openproject:
+    image: openproject/openproject:15
+    container_name: openproject
+    #ports:
+    #  - "8200:80"
+    expose:
+      - 80
+    restart: always
+    environment:
+      - OPENPROJECT_SECRET_KEY_BASE="f19904e535f62ff59faf252bfbb683c903ed2ddcae31231fd99f9b4826d8ab76"
+      - OPENPROJECT_HOST__NAME=trello.bfmu.dev
+      - OPENPROJECT_HTTPS=false
+      - OPENPROJECT_DEFAULT__LANGUAGE=es
+    volumes:
+      - ./pgdata:/var/openproject/pgdata
+      - ./assets:/var/openproject/assets
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true
