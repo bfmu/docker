@@ -1,0 +1,18 @@
+services:
+  minio:
+    image: minio/minio
+    user: "1002:1002" #Usuario que ejecuta el contenedor.
+    container_name: minio
+    command: server /data --console-address ":9001"
+    env_file:
+      - .env
+    ports:
+      - "9000:9000"
+    restart: always
+    volumes:
+      - /home/bryan/minio/data:/data
+    networks:
+      - proxy
+networks:
+  proxy:
+    external: true
