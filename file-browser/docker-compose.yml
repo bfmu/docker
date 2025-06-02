@@ -1,0 +1,16 @@
+services:
+  filebrowser:
+    image: hurlenko/filebrowser
+    user: "${UID}:${GID}"
+    container_name: filebrowser
+    networks:
+      - proxy
+    volumes:
+      - /:/data
+      - /CONFIG_DIR:/config
+    environment:
+      - FB_BASEURL=/filebrowser
+    restart: always
+networks:
+  proxy:
+    external: true
